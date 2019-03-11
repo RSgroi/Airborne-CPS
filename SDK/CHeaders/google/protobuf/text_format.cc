@@ -262,7 +262,6 @@ class TextFormat::Parser::ParserImpl {
       allow_unknown_enum_(allow_unknown_enum),
       allow_field_number_(allow_field_number),
       allow_partial_(allow_partial),
-      recursion_budget_(io::CodedInputStream::GetDefaultRecursionLimit()),
       had_errors_(false) {
     // For backwards-compatibility with proto1, we need to allow the 'f' suffix
     // for floats.
@@ -632,10 +631,6 @@ label_skip_parsing:
   bool ConsumeFieldMessage(Message* message,
                            const Reflection* reflection,
                            const FieldDescriptor* field) {
-    if (--recursion_budget_ < 0) {
-      ReportError("Message is too deep");
-      return false;
-    }
 
     // If the parse information tree is not NULL, create a nested one
     // for the nested message.
@@ -652,8 +647,6 @@ label_skip_parsing:
       DO(ConsumeMessage(reflection->MutableMessage(message, field),
                         delimiter));
     }
-
-    ++recursion_budget_;
 
     // Reset the parse information tree.
     parse_info_tree_ = parent;
@@ -759,7 +752,6 @@ label_skip_parsing:
 
       case FieldDescriptor::CPPTYPE_ENUM: {
         string value;
-        int64 int_value = kint64max;
         const EnumDescriptor* enum_type = field->enum_type();
         const EnumValueDescriptor* enum_value = NULL;
 
@@ -770,6 +762,7 @@ label_skip_parsing:
 
         } else if (LookingAt("-") ||
                    LookingAtType(io::Tokenizer::TYPE_INTEGER)) {
+          int64 int_value;
           DO(ConsumeSignedInteger(&int_value, kint32max));
           value = StrCat(int_value);  // for error reporting
           enum_value = enum_type->FindValueByNumber(int_value);
@@ -780,11 +773,7 @@ label_skip_parsing:
         }
 
         if (enum_value == NULL) {
-          if (int_value != kint64max &&
-              reflection->SupportsUnknownEnumValues()) {
-            SET_FIELD(EnumValue, int_value);
-            return true;
-          } else if (!allow_unknown_enum_) {
+          if (!allow_unknown_enum_) {
             ReportError("Unknown enumeration value of \"" + value  + "\" for "
                         "field \"" + field->name() + "\".");
             return false;
@@ -1186,7 +1175,6 @@ label_skip_parsing:
   const bool allow_unknown_enum_;
   const bool allow_field_number_;
   const bool allow_partial_;
-  int recursion_budget_;
   bool had_errors_;
 };
 
