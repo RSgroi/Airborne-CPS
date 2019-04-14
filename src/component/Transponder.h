@@ -46,7 +46,7 @@ protected:
 
 	unsigned sinlen;
 	std::atomic<int> communication;
-	xplane::Location intruderLocation, myLocation;
+	tcas::Location intruderLocation, myLocation;
 
 
 	concurrency::concurrent_unordered_map<std::string, Aircraft*>* intrudersMap;

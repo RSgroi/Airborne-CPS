@@ -3,7 +3,7 @@ syntax = "proto3";
 package tcas;
 
 message Location {
-	int32 id = 1;
+	int64 id = 1;
 	double lat = 2;
 	double lon = 3;
 	double alt = 4;

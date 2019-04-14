@@ -9,19 +9,11 @@ protected:
 
 private:
 
-	static void recommendLift() {
-		// sim/autopilot/altitude_up 
-	}
+	static void recommendLift();
 
-	static void recommendDrop() {
-		// sim/autopilot/altitude_down
-	}
+	static void recommendDrop();
 
-	static void changeHeaderLeft() {
-		// sim/autopilot/heading_copilot_down
-	}
+	static void changeHeaderLeft();
 
-	static void changeHeaderRight() {
-		// sim/autopilot/heading_copilot_up
-	}
+	static void changeHeaderRight();
 };
