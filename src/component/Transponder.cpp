@@ -12,9 +12,10 @@ Transponder::Transponder(Aircraft* ac, concurrency::concurrent_unordered_map<std
 	intrudersMap = intruders;
 	openConnections = connections;
 
-	myLocation.set_id(macAddress_);
+	
+	myLocation.mac = macAddress_;
 	ip = getIpAddr();
-	myLocation.set_ip(ip);
+	myLocation.ip = ip;
 
 	sinlen = sizeof(struct sockaddr_in);
 	inSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);

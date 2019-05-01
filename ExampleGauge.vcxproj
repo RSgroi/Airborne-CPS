@@ -26,7 +26,6 @@
     <ClCompile Include="src\component\ResolutionConnection.cpp" />
     <ClCompile Include="src\component\Transponder.cpp" />
     <ClCompile Include="src\data\Aircraft.cpp" />
-    <ClCompile Include="src\data\location.pb.cc" />
     <ClCompile Include="src\ExampleGauge.cpp" />
     <ClCompile Include="src\units\Angle.cpp" />
     <ClCompile Include="src\units\Distance.cpp" />
@@ -47,7 +46,7 @@
     <ClInclude Include="src\component\Transponder.h" />
     <ClInclude Include="src\data\Aircraft.h" />
     <ClInclude Include="src\data\Calculations.h" />
-    <ClInclude Include="src\data\location.pb.h" />
+    <ClInclude Include="src\data\Location.h" />
     <ClInclude Include="src\data\RecommendationRange.h" />
     <ClInclude Include="src\data\Sense.h" />
     <ClInclude Include="src\rendering\TextureConstants.hpp" />
@@ -62,7 +61,6 @@
     <ClInclude Include="src\util\StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\data\location.proto" />
     <None Include="src\rendering\Renderer.inc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -229,7 +227,7 @@
       <LinkDLL>true</LinkDLL>
       <SubSystem>Console</SubSystem>
       <ImportLibrary>.\Release\64\ExampleGauge.lib</ImportLibrary>
-      <AdditionalLibraryDirectories>C:\Users\andrew\Code\Airborne-CPS\SDK\Libraries\Win;C:\Users\andrew\Code\Airborne-CPS\SDK\CHeaders\google\protobuf;C:\Users\andrew\Code\Airborne-CPS\Release\64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\andrew\Code\Airborne-CPS\SDK\Libraries\Win;C:\Users\andrew\Code\Airborne-CPS\Release\64</AdditionalLibraryDirectories>
       <AdditionalDependencies>Opengl32.lib;odbc32.lib;odbccp32.lib;XPLM_64.lib;XPWidgets_64.lib;glaux.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -318,7 +316,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <ImportLibrary>.\Debug\64\ExampleGauge.lib</ImportLibrary>
-      <AdditionalLibraryDirectories>C:\Users\andrew\Code\Airborne-CPS\SDK\Libraries\Win;C:\Users\andrew\Code\Airborne-CPS\SDK\CHeaders\google\protobuf;C:\Users\andrew\Code\Airborne-CPS\Release\64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\andrew\Code\Airborne-CPS\SDK\Libraries\Win;C:\Users\andrew\Code\Airborne-CPS\Release\64</AdditionalLibraryDirectories>
       <AdditionalDependencies>Opengl32.lib;odbc32.lib;odbccp32.lib;XPLM_64.lib;XPWidgets_64.lib;glaux.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

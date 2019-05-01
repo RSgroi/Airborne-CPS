@@ -16,8 +16,8 @@
 #include <unordered_map>
 
 #include "component/GaugeRenderer.h"
-#include "data/location.pb.h"
 #include "data/Aircraft.h"
+#include "data/Location.h"
 
 #define BROADCAST_PORT 21221
 #define MAC_LENGTH 18
@@ -46,10 +46,9 @@ protected:
 
 	unsigned sinlen;
 	std::atomic<int> communication;
-	tcas::Location intruderLocation, myLocation;
-
-
+	Location::location intruderLocation, myLocation;
 	concurrency::concurrent_unordered_map<std::string, Aircraft*>* intrudersMap;
+
 private:
 	static std::atomic<bool> initialized_;
 	static std::string macAddress_;
