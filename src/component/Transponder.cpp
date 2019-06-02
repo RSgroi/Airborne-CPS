@@ -72,31 +72,32 @@ DWORD Transponder::receiveLocation()
 
 	while (communication)
 	{
-		int size = myLocation.ByteSize();
+		int size = sizeof(myLocation);
 		char* buffer = (char*)malloc(size);
-		myID = myLocation.id().c_str();
+		myID = myLocation.id.c_str();
 		recvfrom(inSocket, buffer, size, 0, (struct sockaddr *)&incoming, (int *)&sinlen);
 
 		std::chrono::milliseconds msSinceEpoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
+		
 		intruderLocation.ParseFromArray(buffer, size);
-		intruderID = intruderLocation.id().c_str();
+		intruderID = intruderLocation.id.c_str();
 
 		if (strcmp(myID, intruderID) != 0) {
-			Angle latitude = { intruderLocation.lat(), Angle::AngleUnits::DEGREES };
-			Angle longitude = { intruderLocation.lon(), Angle::AngleUnits::DEGREES };
-			Distance altitude = { intruderLocation.alt(), Distance::DistanceUnits::METERS };
+			Angle latitude = { intruderLocation.lat, Angle::AngleUnits::DEGREES };
+			Angle longitude = { intruderLocation.lon, Angle::AngleUnits::DEGREES };
+			Distance altitude = { intruderLocation.alt, Distance::DistanceUnits::METERS };
 			printf("Transponder::recieveLocation - altitude = %f\n", altitude.toMeters());
-			LLA updatedPosition = { intruderLocation.lat(), intruderLocation.lon(), intruderLocation.alt(), Angle::AngleUnits::DEGREES, Distance::DistanceUnits::METERS };
+			LLA updatedPosition = { intruderLocation.lat, intruderLocation.lon, intruderLocation.alt, Angle::AngleUnits::DEGREES, Distance::DistanceUnits::METERS };
 
-			Aircraft* intruder = (*intrudersMap)[intruderLocation.id()];
+			Aircraft* intruder = (*intrudersMap)[intruderLocation.id];
 			if (!intruder) {
 
 				// Debug Statement to output Intruder MAC and IP addresses to Log
-				std::string debugString = "Intruder MAC : " + intruderLocation.id() + "\nIntruder IP : " + intruderLocation.ip() + "\n";
+				std::string debugString = "Intruder MAC : " + intruderLocation.id + "\nIntruder IP : " + intruderLocation.ip + "\n";
 				XPLMDebugString(debugString.c_str());
 
-				intruder = new Aircraft(intruderLocation.id(), intruderLocation.ip());
+				intruder = new Aircraft(intruderLocation.id, intruderLocation.ip);
 				allocatedAircraft_.push_back(intruder);
 
 				// Fill in the current values so that the aircraft will not have two wildly different position values
@@ -146,9 +147,9 @@ DWORD Transponder::sendLocation()
 		LLA position = aircraft_->positionCurrent;
 		aircraft_->lock.unlock();
 
-		myLocation.set_lat(position.latitude.toDegrees());
-		myLocation.set_lon(position.longitude.toDegrees());
-		myLocation.set_alt(position.altitude.toMeters());
+		myLocation.lat = position.latitude.toDegrees();
+		myLocation.lon = position.longitude.toDegrees();
+		myLocation.alt = position.altitude.toMeters();
 
 		int size = myLocation.ByteSize();
 		void * buffer = malloc(size);
